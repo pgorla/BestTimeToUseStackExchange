@@ -21,29 +21,6 @@
 
 <style>
 
-.chart {
-    padding: 10px;
-    font-family: sans-serif;
-    font-size:0.7em;
-}
-
-.bar {
-    padding: 5px;
-    color: white;
-    background-color: #AB2259;
-    margin-bottom: 20px;
-    margin-left: 20em;
-    line-height: 3em;
-    text-align: right;
-}
-
-.label {
-    width: 15em;
-    float: left;
-    text-align: right;
-    height: 3em;
-    line-height: 3em;
-}
 
 
 </style>
@@ -53,27 +30,58 @@
 function draw(data) {
     "use strict";
 
+    window.docs = data.response.docs;
+
+    var margin = 50,
+        width = 700 - margin,
+        height = 300 - margin;
+
+    var answer_extent = d3.extent(
+        data.response.docs,
+        function(d){return d.AnswerCount});
+
+    var answer_scale = d3.scale.linear()
+        .domain(answer_extent)
+        .range([height, margin]);
+
+    var time_extent = d3.extent(
+        data.response.docs,
+        function(d) {
+            return new Date(d.CreationDate).getTime();
+        });
+
+    var time_scale = d3.time.scale()
+        .domain(time_extent)
+        .range([margin, width]);
+
+    var rad_extent = d3.extent(
+        data.response.docs,
+        function(d) {
+            return d.AnswerCount;
+        });
+
+    var rad_scale = d3.scale.linear()
+        .domain(answer_extent)
+        .range([5,25]);
+
     d3.select("body")
-        .append("div")
-            .attr("class", "chart")
-        .selectAll("div.line")
+        .append("svg")
+            .attr("width", width+margin)
+            .attr("height", height+margin)
+            .attr("class", "chart");
+
+    d3.select("svg")
+        .selectAll("circle")
         .data(data.response.docs)
         .enter()
-        .append("div")
-            .attr("class", "line");
+        .append("circle")
+            .attr("class", "main");
 
-    d3.selectAll("div.line")
-        .append("div")
-            .attr("class", "label")
-            .text(function(d){return d.Score});
-
-    d3.selectAll("div.line")
-        .append("div")
-            .attr("class", "bar")
-            .style("width", function(d){return d.ViewCount/100 + "px"})
-            .text(function(d){return Math.round(d.Score)});
-
-        
+   d3.selectAll("circle")
+        .attr("cy", function(d){return answer_scale(d.AnswerCount)})
+        .attr("cx", function(d){
+            return time_scale(new Date(d.CreationDate).getTime())})
+        .attr("r", function(d){return rad_scale(d.AnswerCount)});
 
 }
 
