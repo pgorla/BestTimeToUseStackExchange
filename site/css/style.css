@@ -5,6 +5,8 @@
 
 .post {
     fill: BurlyWood;
+    stroke: DarkGray;
+    stroke-width: 1px;
 }
 
 path {
@@ -20,11 +22,28 @@ path {
 
 #infobox {
     position: absolute;
+    height: 250px;
     width: 300px;
-    top: 50px;
+    top: 20px;
     right: 50px;
     display: none;
-    padding: 10px;
-    background-color: BurlyWood;
+    padding: 5px 15px;
+    background-color: BlanchedAlmond;
     font-family: sans-serif;
+    overflow: hidden;
+    border: 1px solid DarkGray;
+}
+
+#infobox h3 {
+    text-align: center;
+}
+
+#infobox .time {
+    font: 80% Helvetica;
+    padding-bottom: 5px;
+}
+
+#infobox .post-answers {
+    font: 90% Helvetica;
+    padding-top: 15px;
 }

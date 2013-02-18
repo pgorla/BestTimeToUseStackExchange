@@ -46,7 +46,7 @@ function draw(data) {
         .range([0, chart_dims.width]);
  
     var y_scale = d3.time.scale.utc()
-        .domain([time_parse("00:00"), time_parse("23:59")])
+        .domain([time_parse("23:59"), time_parse("00:00")])
         .range([chart_dims.height, 0]);
 
    var rad_extent = d3.extent(
@@ -89,13 +89,40 @@ function draw(data) {
             return x_scale(new Date(d.CreationDate).getDay())})
         .attr("r", function(d){return rad_scale(d.AnswerCount)})
         .on("mouseover", function(d) {
-            d3.select("#infobox")
-                .style("display", "block")
-                .text("Sample text");
+            var infobox = d3.select("#infobox")
+                .style("display", "block");
+
+            var title = d.Title,
+                body = d.Body,
+                time = new Date(d.CreationDate);
+
+            if (title.length > 50) {
+                title = title.substring(0, 50) + "...";
+            }
+            if (body.length > 200) {
+                body = body.substring(0,200) + "...";
+            }
+                
+            infobox.append("h3")
+                .text(title);
+            infobox.append("div")
+                .attr("class", "time")
+                .text(time.toUTCString());
+            infobox.append("div")
+                .attr("class", "post-text")
+                .text(body);
+            infobox.append("div")
+                .attr("class", "post-answers")
+                .text(d.AnswerCount + " Answers");
             })
+
+
         .on("mouseout", function(d) {
-            d3.select("#infobox")
+            var infobox = d3.select("#infobox")
                 .style("display", "none");
+            // Remove titles after they're added.
+            infobox.selectAll("h3").remove();
+            infobox.selectAll("div").remove();
             })
 ;
 
@@ -119,7 +146,6 @@ function draw(data) {
         html: true,
         title: function() {
             var d = this.__data__;
-            console.log(d);
             return "Answers: " + d.AnswerCount;
         }
     });
