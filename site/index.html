@@ -45,9 +45,10 @@ function draw(data) {
         .domain([0,7])
         .range([0, chart_dims.width]);
  
-    var y_scale = d3.time.scale.utc()
+    var y_scale = d3.time.scale()
         .domain([time_parse("23:59"), time_parse("00:00")])
-        .range([chart_dims.height, 0]);
+        .range([chart_dims.height, 0])
+    ;
 
    var rad_extent = d3.extent(
         data.response.docs,
@@ -130,6 +131,7 @@ function draw(data) {
 
     var y_axis = d3.svg.axis()
         .scale(y_scale)
+        .ticks(d3.time.hours.utc, 4)
         .orient("left");
 
     chart.append("g")
