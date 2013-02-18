@@ -1,0 +1,30 @@
+
+.chart {
+    padding: 10px;
+}
+
+.post {
+    fill: BurlyWood;
+}
+
+path {
+    fill: none;
+    stroke: black;
+    stroke-width: 2px;
+}
+
+.tick {
+    fill: none;
+    stroke: black;
+}
+
+#infobox {
+    position: absolute;
+    width: 300px;
+    top: 50px;
+    right: 50px;
+    display: none;
+    padding: 10px;
+    background-color: BurlyWood;
+    font-family: sans-serif;
+}
