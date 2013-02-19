@@ -5,8 +5,6 @@
 
 .post {
     fill: BurlyWood;
-    stroke: DarkGray;
-    stroke-width: 1px;
 }
 
 path {
@@ -46,4 +44,8 @@ path {
 #infobox .post-answers {
     font: 90% Helvetica;
     padding-top: 15px;
+}
+
+.form-search {
+    padding: 15px;
 }

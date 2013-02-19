@@ -29,10 +29,10 @@ $(document).ready(function() {
 
     $(".btn").click(function() {
 
-        $.getJSON("http://localhost:8983/solr/select/?q=" +
-            $("#so-search").val() + "&wt=json&json.wrf=?",
+        $.getJSON("http://localhost:8983/solr/select/?q=Tags:" +
+            $("#so-search").val() + "&rows=500&wt=json&json.wrf=?",
             function(result) {
-                alert(result.response.docs);
+                draw(result);
             });
     });
 });
@@ -44,9 +44,11 @@ $(document).ready(function() {
 
 <body>
 
-<div class="form-search">
+<div class="row">
+<div class="form-search offset6">
   <input id="so-search" type="text" class="input-medium search-query span2"/>
   <button class="btn">Search</button>
+</div>
 </div>
 
 <script>
